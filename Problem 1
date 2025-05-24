@@ -1,0 +1,39 @@
+#Lumbre, Risshi Mae Bucio
+# Problem 1: Predicting Media Awareness by Generation
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Observed data: surveyed people and those aware of deepfakes per generation
+generation_data = {
+    "Gen Z": {"surveyed": 120, "aware": 90},
+    "Millennials": {"surveyed": 100, "aware": 70},
+    "Gen X": {"surveyed": 80, "aware": 50}
+}
+
+prior_alpha = 2
+prior_beta = 2
+
+for gen, data in generation_data.items():
+    surveyed = data["surveyed"]
+    aware = data["aware"]
+
+    posterior_alpha = prior_alpha + aware
+    posterior_beta = prior_beta + (surveyed - aware)
+
+    samples = np.random.beta(posterior_alpha, posterior_beta, 10000)
+
+    mean_rate = posterior_alpha / (posterior_alpha + posterior_beta)
+    expected_awareness = mean_rate * 150  # Assuming 150 people in future survey
+
+    print(f"\n--- Problem 10: {gen} ---")
+    print(f"Mean media awareness rate ({gen}):", mean_rate)
+    print(f"Expected aware individuals out of 150 ({gen}):", expected_awareness)
+
+    plt.figure(figsize=(8, 6))
+    plt.hist(samples, bins=30, density=True, color='mediumturquoise', edgecolor='black', alpha=0.7)
+    plt.title(f'Posterior Distribution of Media Awareness Rate ({gen})')
+    plt.xlabel('Awareness Rate')
+    plt.ylabel('Density')
+    plt.xlim(0.3, 1.0)
+    plt.show()
