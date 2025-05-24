@@ -1,0 +1,27 @@
+# Problem 3: Predicting Interest in Remote Jobs Among Young Adults
+surveyed_remote = 150
+interested_in_remote = 105
+
+prior_alpha = 1
+prior_beta = 1
+
+posterior_alpha = prior_alpha + interested_in_remote
+posterior_beta = prior_beta + (surveyed_remote - interested_in_remote)
+
+samples = np.random.beta(posterior_alpha, posterior_beta, 10000)
+
+mean_interest_rate = posterior_alpha / (posterior_alpha + posterior_beta)
+expected_interest = mean_interest_rate * 300  # Assume 300 respondents in future
+
+print("\n--- Problem 12: Interest in Remote Jobs ---")
+print("Mean interest rate in remote jobs:", mean_interest_rate)
+print("Expected number interested out of 300:", expected_interest)
+
+plt.figure(figsize=(8, 6))
+plt.hist(samples, bins=30, density=True, color='thistle', edgecolor='black', alpha=0.7)
+plt.title('Posterior Distribution of Remote Job Interest Rate')
+plt.xlabel('Interest Rate')
+plt.ylabel('Density')
+plt.xlim(0.5, 1.0)
+plt.grid(True)
+plt.show()
