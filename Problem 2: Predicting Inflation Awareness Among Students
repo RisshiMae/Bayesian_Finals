@@ -1,0 +1,36 @@
+#Problem 2: Predicting Inflation Awareness Among Students
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+surveyed = 100
+aware_of_inflation = 75
+
+# Prior hyperparameters
+prior_alpha = 1
+prior_beta = 1
+
+# Posterior parameters
+posterior_alpha = prior_alpha + aware_of_inflation
+posterior_beta = prior_beta + (surveyed - aware_of_inflation)
+
+# Generate samples from the posterior distribution
+samples = np.random.beta(posterior_alpha, posterior_beta, 10000)
+
+# Calculate mean and expected value for a new survey
+mean_rate = posterior_alpha / (posterior_alpha + posterior_beta)
+expected_aware = mean_rate * 200
+
+# Display results
+print("Mean inflation awareness rate:", mean_rate)
+print("Expected number aware out of 200:", expected_aware)
+
+# Plot the posterior distribution
+plt.figure(figsize=(8, 6))
+plt.hist(samples, bins=30, density=True, color='lightsteelblue', edgecolor='black', alpha=0.7)
+plt.title('Posterior Distribution of Inflation Awareness Rate')
+plt.xlabel('Awareness Rate')
+plt.ylabel('Density')
+plt.xlim(0.6, 1.0)
+plt.grid(True)
+plt.show()
